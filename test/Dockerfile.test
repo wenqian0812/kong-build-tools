@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y \
     jq \
     httpie \
     iputils-ping \
-    net-tools
+    net-tools \
+    postgresql
 
 ENV GOLANG_VERSION 1.13.5
 

@@ -314,7 +314,6 @@ endif
 
 test: build-test-container
 ifneq ($(RESTY_IMAGE_BASE),src)
-	make update-cache-images
 	KONG_PACKAGE_NAME=$(KONG_PACKAGE_NAME) \
 	VERBOSE=$(VERBOSE) \
 	KONG_VERSION=$(KONG_VERSION) \

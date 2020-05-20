@@ -91,15 +91,7 @@ endif
 DOCKER_REPOSITORY?=mashape/kong-build-tools
 
 debug:
-	@echo ${CACHE}
-	@echo ${BUILDX}
-	@echo ${UPDATE_CACHE}
-	@echo ${CACHE_COMMAND}
-	@echo ${UPDATE_CACHE_COMMAND}
-	@echo ${DOCKER_COMMAND}
-	@echo ${BUILDX_INFO}
-	@echo ${DEBUG}
-	@echo ${KONG_NGINX_MODULE}
+	@echo ${KONG_VERSION}
 
 setup-ci: setup-build
 

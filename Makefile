@@ -27,7 +27,7 @@ PRIVATE_REPOSITORY?=true
 KONG_TEST_CONTAINER_NAME=kong-tests
 KONG_TEST_CONTAINER_TAG?=5000/kong-$(RESTY_IMAGE_BASE)-$(RESTY_IMAGE_TAG)
 KONG_TEST_IMAGE_NAME?=localhost:$(KONG_TEST_CONTAINER_TAG)
-KONG_VERSION?=`echo $(KONG_SOURCE_LOCATION)/kong-*.rockspec | sed 's,.*/,,' | cut -d- -f2`
+KONG_VERSION?=`echo $(KONG_SOURCE_LOCATION)/kong-*.rockspec | xargs -n 1 basename | sed 's,.*/,,' | cut -d- -f2`
 RESTY_VERSION ?= `grep RESTY_VERSION $(KONG_SOURCE_LOCATION)/.requirements | awk -F"=" '{print $$2}'`
 KONG_GO_PLUGINSERVER_VERSION ?= `grep KONG_GO_PLUGINSERVER_VERSION $(KONG_SOURCE_LOCATION)/.requirements | awk -F"=" '{print $$2}'`
 RESTY_LUAROCKS_VERSION ?= `grep RESTY_LUAROCKS_VERSION $(KONG_SOURCE_LOCATION)/.requirements | awk -F"=" '{print $$2}'`
@@ -91,15 +91,7 @@ endif
 DOCKER_REPOSITORY?=mashape/kong-build-tools
 
 debug:
-	@echo ${CACHE}
-	@echo ${BUILDX}
-	@echo ${UPDATE_CACHE}
-	@echo ${CACHE_COMMAND}
-	@echo ${UPDATE_CACHE_COMMAND}
-	@echo ${DOCKER_COMMAND}
-	@echo ${BUILDX_INFO}
-	@echo ${DEBUG}
-	@echo ${KONG_NGINX_MODULE}
+	@echo ${KONG_VERSION}
 
 setup-ci: setup-build
 

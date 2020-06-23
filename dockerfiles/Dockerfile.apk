@@ -1,6 +1,8 @@
 ARG RESTY_IMAGE_TAG="3"
 
-FROM alpine:${RESTY_IMAGE_TAG}
+FROM balenalib/generic-aarch64-alpine
+
+RUN [ "cross-build-start" ]
 
 RUN apk update \
   && apk add ca-certificates wget coreutils patch grep \
@@ -9,3 +11,5 @@ RUN apk update \
     openssl-dev zlib-dev ncurses-dev readline-dev curl perl \
     libffi-dev git unzip tar openssh m4 xz gnupg openssl musl \
     linux-headers bsd-compat-headers bash go
+
+RUN [ "cross-build-end" ]

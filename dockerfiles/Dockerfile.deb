@@ -4,7 +4,9 @@
 ARG RESTY_IMAGE_BASE="ubuntu"
 ARG RESTY_IMAGE_TAG="bionic"
 
-FROM ${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}
+FROM balenalib/armv7hf-debian
+
+RUN [ "cross-build-start" ]
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -28,3 +30,5 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
         file \
         ssh \
         valgrind
+
+RUN [ "cross-build-end" ]

@@ -8,4 +8,8 @@ FROM --platform=$TARGETPLATFORM ${DOCKER_REPOSITORY}:kong-packaged-${RESTY_IMAGE
 
 FROM  --platform=$TARGETPLATFORM scratch
 
+RUN [ "cross-build-start" ]
+
 COPY --from=FPM /output /output
+
+RUN [ "cross-build-end" ]

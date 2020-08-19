@@ -9,6 +9,7 @@ pipeline {
         DOCKER_USERNAME = "${env.DOCKERHUB_USR}"
         DOCKER_PASSWORD = "${env.DOCKERHUB_PSW}"
         DOCKERHUB = credentials('dockerhub')
+        ARCHITECTURE = "aarch64"
     }
     stages {
         stage('Build Kong') {
@@ -16,7 +17,7 @@ pipeline {
                 beforeAgent true
                 anyOf {
                     buildingTag()
-                    branch 'master'
+                    branch 'chore/multi-arch'
                     changeRequest target: 'master'
                 }
             }
@@ -36,7 +37,7 @@ pipeline {
                 beforeAgent true
                 anyOf {
                     buildingTag()
-                    branch 'master'
+                    branch 'chore/multi-arch'
                     changeRequest target: 'master'
                 }
             }
@@ -110,7 +111,7 @@ pipeline {
                 beforeAgent true
                 anyOf {
                     buildingTag()
-                    branch 'master'
+                    branch 'chore/multi-arch'
                     changeRequest target: 'master'
                 }
             }

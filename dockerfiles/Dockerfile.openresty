@@ -1,9 +1,12 @@
+ARG ARCHITECTURE="amd64"
 ARG RESTY_IMAGE_BASE="ubuntu"
 ARG RESTY_IMAGE_TAG="bionic"
 ARG DOCKER_BASE_SUFFIX
 ARG DOCKER_REPOSITORY
 
-FROM ${DOCKER_REPOSITORY}:${RESTY_IMAGE_BASE}-${RESTY_IMAGE_TAG}-${DOCKER_BASE_SUFFIX}
+FROM ${DOCKER_REPOSITORY}:${ARCHITECTURE}-${RESTY_IMAGE_BASE}-${RESTY_IMAGE_TAG}-${DOCKER_BASE_SUFFIX}
+
+RUN ["cross-build-start"]
 
 ARG EDITION="community"
 ENV EDITION $EDITION
@@ -101,3 +104,4 @@ RUN /build-kong.sh && rm -rf /kong
 
 RUN sed -i 's/\/tmp\/build//' `grep -l -I -r '\/tmp\/build' /tmp/build/` || true
 
+RUN ["cross-build-end"]

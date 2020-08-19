@@ -23,7 +23,7 @@ elif [ "$RESTY_IMAGE_BASE" == "centos" ] || [ "$RESTY_IMAGE_BASE" == "rhel" ] ||
     OUTPUT_FILE_SUFFIX=".el${RESTY_IMAGE_TAG}"
   fi
 fi
-OUTPUT_FILE_SUFFIX="${OUTPUT_FILE_SUFFIX}."$(echo ${BUILDPLATFORM} | awk -F "/" '{ print $2}')
+OUTPUT_FILE_SUFFIX=${OUTPUT_FILE_SUFFIX}.${BUILDPLATFORM}
 
 ROCKSPEC_VERSION=`basename /tmp/build/build/usr/local/lib/luarocks/rocks/kong/*`
 

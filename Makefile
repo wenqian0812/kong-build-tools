@@ -48,6 +48,7 @@ RELEASE_DOCKER_ONLY ?= false
 BUILDPLATFORM=amd64
 ifeq ($(ARCHITECTURE),aarch64)
 	BUILDPLATFORM=arm64
+endif
 
 DOCKER_COMMAND?=docker build
 
@@ -192,6 +193,8 @@ actual-build-kong:
 
 kong-test-container:
 ifneq ($(RESTY_IMAGE_BASE),src)
+	-rm -rf kong
+	-cp -R $(KONG_SOURCE_LOCATION) kong
 	$(CACHE_COMMAND) $(DOCKER_REPOSITORY):test-$(ARCHITECTURE)-$(DOCKER_OPENRESTY_SUFFIX) || \
 	( $(MAKE) build-openresty && \
 	docker tag $(DOCKER_REPOSITORY):openresty-$(ARCHITECTURE)-$(RESTY_IMAGE_BASE)-$(RESTY_IMAGE_TAG)-$(DOCKER_OPENRESTY_SUFFIX) \

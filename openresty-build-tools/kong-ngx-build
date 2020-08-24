@@ -172,6 +172,13 @@ main() {
   OPENSSL_INSTALL=$(canon_path $OPENSSL_DESTDIR/$OPENSSL_PREFIX)
   OPENRESTY_INSTALL=$(canon_path $OPENRESTY_DESTDIR/$OPENRESTY_PREFIX)
 
+  # -----------------------------------------------------------------
+  # TODO: Remove this
+  # install xxhash and lua-resty-dns-client from sources
+  # -----------------------------------------------------------------
+  LIB_XXHASH_PREFIX=${LIB_XXHASH_PREFIX:-$PREFIX/xxhash}
+  LIB_XXHASH_INSTALL=$(canon_path $LIB_XXHASH_DESTDIR/$LIB_XXHASH_PREFIX)
+
   if version_lt $NGINX_CORE_VER 1.13.6 || version_lt $OPENSSL_VER 1.1; then
     # unconditionally disable module in older core since they are never tested
     KONG_NGINX_MODULE=0
@@ -519,6 +526,39 @@ main() {
       succ "LuaRocks $LUAROCKS_VER has been built successfully (cached)!"
     fi
   fi
+
+  # -----------------------------------------------------------------
+  # TODO: Remove this
+  # install xxhash from sources
+  # -----------------------------------------------------------------
+  pushd $DOWNLOAD_CACHE
+    LIB_XXHASH_VER="0.8.0"
+    LIB_XXHASH_DOWNLOAD=$DOWNLOAD_CACHE/xxHash-$LIB_XXHASH_VER
+
+    if [[ ! -f $LIB_XXHASH_INSTALL/bin/xxhsum && ! -d $LIB_XXHASH_DOWNLOAD ]]; then
+      warn "xxHash source not found, downloading..."
+      set +e
+      curl --fail -sSLO https://github.com/Cyan4973/xxHash/archive/v$LIB_XXHASH_VER.zip
+      [[ $? != 0 ]] && err "Could not download xxHash"
+      set -e
+
+      unzip v$LIB_XXHASH_VER.zip
+
+      notice "Building xxHash..."
+
+      pushd $LIB_XXHASH_DOWNLOAD
+        make -j$NPROC
+        sudo make install DESTDIR=${LIB_XXHASH_PREFIX}
+      popd
+
+      succ "xxHash $LIB_XXHASH_VER has been built successfully!"
+
+    else
+      succ "xxHash $LIB_XXHASH_VER has been built successfully (cached)!"
+    fi
+  popd
+
+
 
   succ "Build finished in $SECONDS seconds. Enjoy!"
 }
